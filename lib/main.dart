@@ -4,18 +4,26 @@ import 'package:flutter/material.dart';
 
 void main() {
   return runApp(
-    MaterialApp(
+    MyMaterialApp()
+  );
+}
+
+class MyMaterialApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
       home: Scaffold(
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.blueGrey,
         appBar: AppBar(
           title: Text('Dice Roller'),
-          backgroundColor: Colors.red,
+          backgroundColor: Colors.blueGrey[200],
         ),
         body: DicePage(),
       ),
-    ),
-  );
+    );
+  }
 }
+
 
 class DicePage extends StatefulWidget {
   @override
@@ -26,6 +34,12 @@ class _DicePageState extends State<DicePage> {
   int leftDiceNum = 1;
   int rightDiceNum = 1;
 
+  void changeDiceFace(){
+    leftDiceNum = Random().nextInt(6)+1;
+    rightDiceNum = Random().nextInt(6)+1;
+    print('Left: '+leftDiceNum.toString()+ ' | Right: '+ rightDiceNum.toString());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -35,8 +49,7 @@ class _DicePageState extends State<DicePage> {
             child: FlatButton(
               onPressed: () {
                 setState(() {
-                  leftDiceNum = Random().nextInt(6)+1;
-                  print(leftDiceNum);
+                  changeDiceFace();
                 });
               },
               child: Image.asset('images/dice$leftDiceNum.png'),
@@ -45,9 +58,11 @@ class _DicePageState extends State<DicePage> {
           Expanded(
             child: FlatButton(
               onPressed: () {
-                print("Right button pressed.");
+                setState(() {
+                  changeDiceFace();
+                });
               },
-              child: Image.asset('images/dice1.png'),
+              child: Image.asset('images/dice$rightDiceNum.png'),
             ),
           ),
         ],
